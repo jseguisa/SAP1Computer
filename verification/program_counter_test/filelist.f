@@ -1,5 +1,7 @@
-$VERFICATION_DIR/program_counter_test/program_counter_item.sv
+$DESIGN_DIR/program_counter.sv
 $VERFICATION_DIR/program_counter_test/driver.sv
 $VERFICATION_DIR/program_counter_test/monitor.sv
 $VERFICATION_DIR/program_counter_test/program_counter_interface.sv
+$VERFICATION_DIR/program_counter_test/environment.sv
+$VERFICATION_DIR/program_counter_test/test.sv
 $VERFICATION_DIR/program_counter_test/program_counter_tb.sv

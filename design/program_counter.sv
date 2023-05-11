@@ -1,14 +1,14 @@
 module program_counter #(parameter ADDR_WIDTH = 4)(
-    input clk,
+    input CLK_n,
     input Cp,
-    input clear_bar,
+    input CLR_n,
     input Ep,
-    output logic [ADDR_WIDTH-1:0] out);
-    
+    output logic [ADDR_WIDTH-1:0] w_bus_addr);
+
     logic [ADDR_WIDTH-1:0] counter;
-    
-    always_ff @(negedge clk or negedge clear_bar) begin
-        if (1'b0 == clear_bar)
+
+    always_ff @(negedge CLK_n or negedge CLR_n) begin
+        if (1'b0 == CLR_n)
             counter <= 4'b0;
         else begin
             if (1'b1 == Cp)
@@ -17,11 +17,11 @@ module program_counter #(parameter ADDR_WIDTH = 4)(
                 counter <= counter;
         end
     end
-    
+
     always_comb begin
         if (1'b1 == Ep)
-            out = counter;
+            w_bus_addr = counter;
         else
-            out = 4'bZ;
+            w_bus_addr = 4'bZ;
     end
 endmodule

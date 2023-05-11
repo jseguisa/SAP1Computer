@@ -1,3 +1,5 @@
+`include "program_counter_txn_item.svh"
+
 class driver;
     virtual program_counter_interface pc_if;
     event drv_done;
@@ -8,19 +10,22 @@ class driver;
 
         @ (negedge pc_if.CLK_n);
         forever begin
-            virtual program_counter_item txn;
+            program_counter_txn_item txn;
 
             $display("T=%0t [Driver] waiting for item ...", $time);
-            drv_mbx.get(txn);
-            txn.print("Driver");
-            pc_if.Cp <= 0;
-            pc_if.Ep <= txn.Ep;
-            pc_if.CLR_n <= txn.CLR_n;
 
             @ (negedge pc_if.CLK_n);
-            pc_if.Cp <= 1;
+            drv_mbx.get(txn);
+            print(txn);
+
+            pc_if.Cp <= txn.Cp;
+            pc_if.Ep <= txn.Ep;
+            pc_if.CLR_n <= txn.CLR_n;
             -> drv_done;
         end
-
     endtask
+
+    function void print(program_counter_txn_item txn);
+        $display("T=%0t [Driver] Cp=0x%0h, Ep=0x%0h, CLR_n=0x%0h", $time, txn.Cp, txn.Ep, txn.CLR_n);
+    endfunction
 endclass

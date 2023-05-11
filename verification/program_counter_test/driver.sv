@@ -1,16 +1,18 @@
 `include "program_counter_txn_item.svh"
 
-class driver;
-    virtual program_counter_interface pc_if;
+class driver #(parameter ADDR_WIDTH = 4);
+    virtual program_counter_interface #(.ADDR_WIDTH(ADDR_WIDTH)) pc_if;
     event drv_done;
     mailbox drv_mbx;
+
+    typedef program_counter_txn_item #(.ADDR_WIDTH(ADDR_WIDTH)) txn_item;
 
     task run();
         $display("T=%0t [Driver] starting ... ", $time);
 
         @ (negedge pc_if.CLK_n);
         forever begin
-            program_counter_txn_item txn;
+            txn_item txn;
 
             $display("T=%0t [Driver] waiting for item ...", $time);
 
@@ -25,7 +27,7 @@ class driver;
         end
     endtask
 
-    function void print(program_counter_txn_item txn);
+    function void print(txn_item txn);
         $display("T=%0t [Driver] Cp=0x%0h, Ep=0x%0h, CLR_n=0x%0h", $time, txn.Cp, txn.Ep, txn.CLR_n);
     endfunction
 endclass

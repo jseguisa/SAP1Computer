@@ -19,7 +19,7 @@ module program_counter_tb;
 
 
     initial begin
-        test t0;
+        test #(.ADDR_WIDTH(ADDR_WIDTH)) t0;
 
         CLK_n <= 1;
         pc_if.Cp <= 0;
@@ -30,7 +30,7 @@ module program_counter_tb;
         t0.env0.pc_if = pc_if;
         t0.run();
 
-        #500 $finish;
+        #1000 $finish;
     end
 
     initial begin

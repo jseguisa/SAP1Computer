@@ -5,7 +5,7 @@ module program_counter #(parameter ADDR_WIDTH = 4)(
     input Ep,
     output logic [ADDR_WIDTH-1:0] w_bus_addr);
 
-    logic [ADDR_WIDTH-1:0] counter;
+    reg [ADDR_WIDTH-1:0] counter;
 
     always_ff @(negedge CLK_n or negedge CLR_n) begin
         if (1'b0 == CLR_n)

@@ -1,14 +1,16 @@
 `include "program_counter_txn_item.svh"
 
-class monitor;
-    virtual program_counter_interface pc_if;
+class monitor #(parameter ADDR_WIDTH = 4);
+    virtual program_counter_interface #(.ADDR_WIDTH(ADDR_WIDTH)) pc_if;
     mailbox scb_mbx;
+
+    typedef program_counter_txn_item #(.ADDR_WIDTH(ADDR_WIDTH)) txn_item;
 
     task run();
         $display("T=%0t [Monitor] starting ... ", $time);
 
         forever begin
-            program_counter_txn_item txn;
+            txn_item txn;
 
             @ (negedge pc_if.CLK_n);
             txn = new();
@@ -20,7 +22,7 @@ class monitor;
         end
     endtask
 
-    function void print(program_counter_txn_item txn);
+    function void print(txn_item txn);
         $display("T=%0t [Monitor] Cp=0x%0h, Ep=0x%0h, CLR_n=0x%0h, w_bus_addr=0x%0h",
             $time, txn.Cp, txn.Ep, txn.CLR_n, txn.w_bus_addr);
     endfunction

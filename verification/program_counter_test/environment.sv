@@ -1,10 +1,10 @@
 `include "driver.sv"
 `include "monitor.sv"
 
-class environment;
-    virtual program_counter_interface pc_if;
-    driver d0;
-    monitor m0;
+class environment #(parameter ADDR_WIDTH = 4);
+    virtual program_counter_interface #(.ADDR_WIDTH(ADDR_WIDTH)) pc_if;
+    driver #(.ADDR_WIDTH(ADDR_WIDTH)) d0;
+    monitor #(.ADDR_WIDTH(ADDR_WIDTH)) m0;
 
     function new();
         d0 = new();
